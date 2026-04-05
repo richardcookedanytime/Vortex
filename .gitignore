@@ -1,0 +1,23 @@
+# Build output
+out/
+*.class
+
+# Runtime logs (do not commit)
+logs/*.log
+logs/vortex.shutdown
+logs/security_outbox/
+logs/security_password.cred
+
+# Security — never commit
+# Local THC-Hydra build artifacts (keep sources; run `make` after clone)
+thc-hydra-9.6/hydra
+thc-hydra-9.6/xhydra
+
+# Python
+**/__pycache__/
+*.pyc
+
+# OS / IDE
+.DS_Store
+.idea/
+*.iml
