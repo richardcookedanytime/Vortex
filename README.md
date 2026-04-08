@@ -17,6 +17,8 @@
 
 ## English
 
+Current version: `0.1.1` (see `VERSION`)
+
 ### Overview
 
 - Monitors **established TCP** connections via `netstat`, scores IPv4 risk / security coefficient, sliding **60s** window for repeated access.
@@ -100,6 +102,8 @@ See `.gitignore`: `out/`, `logs/*.log`, etc.
 ---
 
 ## 中文
+
+当前版本：`0.1.1`（见 `VERSION` 文件）
 
 ### 概述
 

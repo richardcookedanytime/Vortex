@@ -9,6 +9,7 @@ import java.util.Objects;
  * 避免手动在终端里跑 java 时被误关窗口。
  */
 public final class MacTerminalSelfClose {
+    private static final long CLOSE_DELAY_MS = 800L;
 
     private MacTerminalSelfClose() {
     }
@@ -37,18 +38,18 @@ public final class MacTerminalSelfClose {
         }
         String safe = escapeAppleScriptString(marker);
         try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    "osascript",
-                    "-e", "tell application \"Terminal\"",
-                    "-e", "  try",
-                    "-e", "    close (first window whose name contains \"" + safe + "\") saving no",
-                    "-e", "  end try",
-                    "-e", "end tell"
-            );
+            // Delay close slightly so the current Java process exits first.
+            String command = "sleep " + (CLOSE_DELAY_MS / 1000.0) + "; "
+                    + "osascript "
+                    + "-e 'tell application \"Terminal\"' "
+                    + "-e '  try' "
+                    + "-e '    close (first window whose name contains \"" + safe + "\") saving no' "
+                    + "-e '  end try' "
+                    + "-e 'end tell'";
+            ProcessBuilder pb = new ProcessBuilder("sh", "-c", command);
             pb.redirectErrorStream(true);
             pb.redirectOutput(ProcessBuilder.Redirect.DISCARD);
-            Process p = pb.start();
-            p.waitFor();
+            pb.start();
         } catch (Exception ignored) {
             // 无权限或未找到窗口时静默忽略
         }
